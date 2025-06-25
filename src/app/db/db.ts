@@ -23,6 +23,25 @@ export class DbService {
     }
   }
 
+  async getUnvotedProjects(employeeId: number): Promise<ProjectDto[]> {
+    try {
+      const response = await this.http.get<ProjectDto[]>(`http://localhost:5000/api/projects/unvoted/${employeeId}`).toPromise();
+      return this.plainToInstances(ProjectDto, response!);
+    } catch (error) {
+      console.error('Error fetching unvoted projects:', error);
+      return [];
+    }
+  }
+  
+
+  async voteForProject(projectId: string, votetype: VoteTypes): Promise<void> {
+    try {
+      await this.http.post(`http://localhost:5000/api/votes`, {employeeid: 2, projectId: projectId, votetype: votetype.valueOf()}).toPromise();   // ACHTUNG EMPLOYEEID PLACEHOLDER
+    } catch (error) {
+      console.error('Error voting for project:', error);
+    }
+  }
+
   plainToInstance(cls: any, plain: any): any {
     const instance = new cls();
     Object.keys(plain).forEach(key => {
