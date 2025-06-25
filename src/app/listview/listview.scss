@@ -1,0 +1,155 @@
+:host(app-listview) {
+  display: flex;
+  padding-top: 25px;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.title {
+  /* position: relative;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.17);
+  border-radius: 5px;
+  background: #fff;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 22px;
+  color: #000;
+  font-family: Inter; */
+
+  display: flex;
+  padding: 10px 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  color: #000;
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.17);
+}
+
+.list-wrapper {
+  display: flex;
+  margin: 0px 40px;
+  justify-content: center;
+  gap: 10px;
+  align-self: stretch;
+  padding: 10px 20px;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+
+  .rank-items {
+    display: flex;
+    padding: 10px 15px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+
+    .cont-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+
+      .rtitle {
+        color: #000;
+        font-family: Inter;
+        font-size: 19px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+
+      .description {
+        color: #000;
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+
+    .cont-right {
+      display: flex;
+      padding: 15px 0px;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 15px;
+
+      .wrappcounter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+
+        .count {
+          font-family: Inter;
+          font-size: 17px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+        }
+      }
+      .arrowcounter {
+        &.active > svg > path.arrowpath {
+          fill: #58a6ff;
+        }
+        svg > path.arrowpath {
+          fill: #fff;
+        }
+        .count {
+          color: #58a6ff;
+        }
+      }
+      .collabcounter {
+        .count {
+          color: #000;
+        }
+      }
+      .linked {
+        display: flex;
+        padding: 5px;
+        align-items: center;
+        gap: 10px;
+
+        border-radius: 5px;
+        background: #58a6ff;
+      }
+    }
+  }
+
+  .divider {
+    display: flex;
+    margin: 0px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    height: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    &:last-child {
+      display: none;
+    }
+  }
+}
