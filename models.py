@@ -35,7 +35,8 @@ class Vote(db.Model):
     __tablename__ = 'vote'
     employeeid = db.Column(db.BigInteger, db.ForeignKey('users.employeeid'), primary_key=True)
     projectid = db.Column(db.Integer, db.ForeignKey('projects.projectid'), primary_key=True)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+    votetype = db.Column(db.Integer) # 1 for upvote, -1 for downvote, 0 for mehvote
 
     user = db.relationship("User")
     project = db.relationship("Project")
