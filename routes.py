@@ -47,9 +47,21 @@ def add_vote():
         return jsonify({'error': 'User not found'}), 404
     if not project:
         return jsonify({'error': 'Project not found'}), 404
-    if votetype not in [1, -1, 0]:
+    if votetype not in [1, -1, 0, 2, -2]:
         return jsonify({'error': 'Invalid votetype'}), 400
 
+    if votetype == 2:
+        user.favourite = project.projectid
+        db.session.commit()
+        return jsonify({'message': 'Project favorited'}), 200
+    
+    if votetype == -2:
+        if user.favourite == project.projectid:
+            user.favourite = None
+            db.session.commit()
+            return jsonify({'message': 'Project unfavorited'}), 200
+        else:
+            return jsonify({'error': 'Project not favorited'}), 404
     existing_vote = Vote.query.get((employeeid, projectid))
     if existing_vote and existing_vote.votetype == votetype:
         return jsonify({'error': 'Vote already exists'}), 409
@@ -77,6 +89,27 @@ def get_unvoted_projects(employeeid):
     unvoted_projects = Project.query.filter(~Project.projectid.in_(subquery)).all()
     return jsonify([{
         'projectid': project.projectid,
+        'title': project.title,
+        'imageurl': project.imageurl or None,
+        'description': project.description,
+        'projecturl': project.projecturl or None,
+        'createdat': project.createdat.isoformat() if project.createdat else None,
+        'authorized': project.authorized,
+        'color': project.color or None,
+        'shortdesc': project.shortdesc or None,
+        'leader': {
+            'id': project.leader_user.employeeid,
+            'name': project.leader_user.name
+        } if project.leader_user else None
+    } for project in unvoted_projects])
+
+@routes.route("/api/projects/voted/<int:employeeid>", methods=["GET"])
+def get_voted_projects(employeeid):
+    subquery = db.session.query(Vote.projectid).filter_by(employeeid=employeeid)
+
+    voted_projects = Project.query.filter(Project.projectid.in_(subquery)).all()
+    return jsonify([{
+        'projectid': project.projectid,
         "votes": project.votes,
         'title': project.title,
         'imageurl': project.imageurl or None,
@@ -95,4 +128,23 @@ def get_unvoted_projects(employeeid):
             'name': project.leader_user.name
         } if project.leader_user else None,
         "favourites": project.favourites
-    } for project in unvoted_projects])
+    } for project in voted_projects])
+
+@routes.route('/api/favourite/<int:employeeid>', methods=['GET'])
+def get_favorite_project(employeeid):
+    user = User.query.get(employeeid)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    favourite_project_id = user.favourite
+    if not favourite_project_id:
+        return jsonify({'message': 'No favourite project found'}), 404
+
+    project = Project.query.get(favourite_project_id)
+    if not project:
+        return jsonify({'error': 'Favourite project not found'}), 404
+
+    return jsonify({
+        "projectid": project.projectid,
+    }), 200
+    
