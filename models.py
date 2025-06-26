@@ -14,7 +14,6 @@ class Project(db.Model):
     __tablename__ = 'projects'
     projectid = db.Column(db.Integer, primary_key=True)
     leader = db.Column(db.BigInteger, db.ForeignKey('users.employeeid'))
-    imageurl = db.Column(db.String)
     title = db.Column(db.String)
     description = db.Column(db.Text)
     projecturl = db.Column(db.String)
@@ -40,3 +39,10 @@ class Vote(db.Model):
 
     user = db.relationship("User")
     project = db.relationship("Project")
+
+class Images(db.Model):
+    __tablename__ = 'images'
+    projectid = db.Column(db.Integer, db.ForeignKey('projects.projectid'))
+    imageurl = db.Column(db.String)
+
+    project = db.relationship("Project", backref=db.backref('images', lazy=True))

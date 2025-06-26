@@ -1,6 +1,6 @@
 import datetime
 from flask import Blueprint, jsonify, request
-from models import db, User, Project, Vote
+from models import Images, db, User, Project, Vote
 
 routes = Blueprint('routes', __name__)
 
@@ -11,7 +11,6 @@ def get_projects():
         'projectid': project.projectid,
         "votes": project.votes,
         'title': project.title,
-        'imageurl': project.imageurl or None,
         'description': project.description,
         'projecturl': project.projecturl or None,
         'upvotes': project.upvotes,
@@ -90,9 +89,8 @@ def get_unvoted_projects(employeeid):
     return jsonify([{
         'projectid': project.projectid,
         'title': project.title,
-        'imageurl': project.imageurl or None,
-        'description': project.description,
         'projecturl': project.projecturl or None,
+        'description': project.description,
         'createdat': project.createdat.isoformat() if project.createdat else None,
         'authorized': project.authorized,
         'color': project.color or None,
@@ -112,7 +110,6 @@ def get_voted_projects(employeeid):
         'projectid': project.projectid,
         "votes": project.votes,
         'title': project.title,
-        'imageurl': project.imageurl or None,
         'description': project.description,
         'projecturl': project.projecturl or None,
         'upvotes': project.upvotes,
@@ -148,3 +145,42 @@ def get_favorite_project(employeeid):
         "projectid": project.projectid,
     }), 200
     
+@routes.route("/api/projects", methods=["POST"])
+def create_project():
+    data = request.get_json()
+    
+    title = data.get('title')
+    description = data.get('description')
+    shortdesc = data.get('shortdesc')
+    projecturl = data.get('projecturl', None)
+    color = data.get('color', 'FFFFFF')
+    leaderid = data.get('leader')
+    images = data.get('images', None)
+
+    if not title or not description or not leaderid:
+        return jsonify({'error': 'Title, description, and leaderid are required'}), 400
+
+    user = User.query.get(leaderid)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    new_project = Project(
+        title=title,
+        description=description,
+        projecturl=projecturl,
+        shortdesc=shortdesc,
+        color=color,
+        leader_user=user
+    )
+
+    if images:
+        if isinstance(images, list) and len(images) > 0:
+            for image_url in images:
+                if image_url:
+                    new_image = Images(imageurl=image_url, project=new_project)
+                    db.session.add(new_image)
+
+    db.session.add(new_project)
+    db.session.commit()
+
+    return jsonify({'message': 'Project created successfully', 'projectid': new_project.projectid}), 201
