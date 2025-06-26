@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DbService } from '../db/db';
 import { CommonModule } from '@angular/common';
 import { ProjectDto } from '../db/dtos/project';
 import { RouterLink } from '@angular/router';
+import { VoteTypes } from '../db/votetypes';
 
 @Component({
   selector: 'app-listview',
@@ -10,16 +11,23 @@ import { RouterLink } from '@angular/router';
   templateUrl: './listview.html',
   styleUrl: './listview.scss'
 })
-export class Listview {
+export class Listview implements OnInit, OnDestroy {
   db: DbService;
   projects: ProjectDto[] = [];
   activeUser: number;
   fav: number | undefined;
+  private intervalId: any;
 
   constructor(db: DbService) {
     this.db = db;
     this.activeUser = 92041720210421; // ACHTUNG EMPLOYEEID PLACEHOLDER
     this.loadProjects();
+  }
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
+  }
+  ngOnInit(): void {
+    this.intervalId = setInterval(() => this.loadProjects(), 30000);
   }
 
   loadProjects() {
@@ -35,5 +43,16 @@ export class Listview {
       this.fav = favProjectId;
       console.log(favProjectId);
     });
+  }
+
+  async favourise(projectId: number) {
+    if (this.fav === projectId) {
+      this.fav = undefined;
+      this.db.voteForProject(projectId, VoteTypes.FAVOURITE, this.activeUser);
+    } else {
+      this.fav = projectId;
+      await this.db.voteForProject(projectId, VoteTypes.FAVOURITE, this.activeUser);
+    }
+    this.loadProjects();
   }
 }

@@ -1,0 +1,53 @@
+<div class="maincontainer">
+    <div class="titlecomp">
+        <p *ngIf="!editProjectName">{{ projectName }}</p>
+        <input type="text" name="projectName" id="projectName" [(ngModel)]="projectName" *ngIf="editProjectName" placeholder="Projektname eingeben" [value]="projectName" (keyup.enter)="editProjectName = false"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none"  (click)="editProjectName = !editProjectName">
+            <path d="M18.5 2.5L22.5 6.5M2.5 22.5L3.7764 17.8199C3.85968 17.5145 3.90131 17.3619 3.96523 17.2195C4.02199 17.0931 4.09172 16.9729 4.17332 16.8609C4.26521 16.7348 4.37711 16.6229 4.6009 16.3991L14.9343 6.06569C15.1323 5.86768 15.2313 5.76867 15.3455 5.73158C15.4459 5.69895 15.5541 5.69895 15.6545 5.73158C15.7687 5.76867 15.8677 5.86768 16.0657 6.06569L18.9343 8.93431C19.1323 9.13232 19.2313 9.23133 19.2684 9.34549C19.3011 9.44591 19.3011 9.55409 19.2684 9.65451C19.2313 9.76867 19.1323 9.86768 18.9343 10.0657L8.6009 20.3991C8.37711 20.6229 8.26521 20.7348 8.13908 20.8267C8.02709 20.9083 7.90692 20.978 7.78052 21.0348C7.63815 21.0987 7.48548 21.1403 7.18014 21.2236L2.5 22.5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+
+    <div class="editblock">
+        <div class="titlebar">
+            <p class="title">Kurzbeschreibung</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" (click)="editProjectShortDescription = !editProjectShortDescription">
+                <path d="M18 2L22 6M2 22L3.2764 17.3199C3.35968 17.0145 3.40131 16.8619 3.46523 16.7195C3.52199 16.5931 3.59172 16.4729 3.67332 16.3609C3.76521 16.2348 3.87711 16.1229 4.1009 15.8991L14.4343 5.56569C14.6323 5.36768 14.7313 5.26867 14.8455 5.23158C14.9459 5.19895 15.0541 5.19895 15.1545 5.23158C15.2687 5.26867 15.3677 5.36768 15.5657 5.56569L18.4343 8.43431C18.6323 8.63232 18.7313 8.73133 18.7684 8.84549C18.8011 8.94591 18.8011 9.05409 18.7684 9.15451C18.7313 9.26867 18.6323 9.36768 18.4343 9.56569L8.1009 19.8991C7.87711 20.1229 7.76521 20.2348 7.63908 20.3267C7.52709 20.4083 7.40692 20.478 7.28052 20.5348C7.13815 20.5987 6.98548 20.6403 6.68014 20.7236L2 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <p class="description" *ngIf="!editProjectShortDescription">{{ projectShortDescription }}</p>
+        <textarea name="projectShortDescription" id="projectShortDescription" [(ngModel)]="projectShortDescription" *ngIf="editProjectShortDescription" placeholder="Kurze Beschreibung eingeben" [value]="projectShortDescription" (keyup.enter)="editProjectShortDescription = false"></textarea>
+    </div>
+    
+    <div class="editblock">
+        <div class="titlebar">
+            <p class="title">Langbeschreibung</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" (click)="editProjectDescription = !editProjectDescription">
+                <path d="M18 2L22 6M2 22L3.2764 17.3199C3.35968 17.0145 3.40131 16.8619 3.46523 16.7195C3.52199 16.5931 3.59172 16.4729 3.67332 16.3609C3.76521 16.2348 3.87711 16.1229 4.1009 15.8991L14.4343 5.56569C14.6323 5.36768 14.7313 5.26867 14.8455 5.23158C14.9459 5.19895 15.0541 5.19895 15.1545 5.23158C15.2687 5.26867 15.3677 5.36768 15.5657 5.56569L18.4343 8.43431C18.6323 8.63232 18.7313 8.73133 18.7684 8.84549C18.8011 8.94591 18.8011 9.05409 18.7684 9.15451C18.7313 9.26867 18.6323 9.36768 18.4343 9.56569L8.1009 19.8991C7.87711 20.1229 7.76521 20.2348 7.63908 20.3267C7.52709 20.4083 7.40692 20.478 7.28052 20.5348C7.13815 20.5987 6.98548 20.6403 6.68014 20.7236L2 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <p *ngIf="!editProjectDescription" class="description bigdesc">{{ projectDescription }}</p>
+        <textarea name="projectDescription" id="projectDescription" [(ngModel)]="projectDescription" *ngIf="editProjectDescription" placeholder="Langbeschreibung eingeben" [value]="projectDescription" (keyup.enter)="editProjectDescription = false"></textarea>
+    </div>
+    
+    <div class="bildreihecont">
+        <div class="createbuttonrow">
+            <button class="buttonstart">Bild hinzufügen</button>
+        </div>
+        <div class="bildreihe" #bildreihe (mousedown)="onDragStart($event, bildreihe)" (mousemove)="onDragMove($event, bildreihe)" (mouseup)="onDragEnd()" (mouseleave)="onDragEnd()">
+            <div class="bild" *ngFor="let image of projectImagesUrls; let i = index;">
+                <img src="{{ image }}" alt="Project Image {{ i + 1 }}" width="100%" height="100%"/>
+                <button class="image-button" (click)="removeImage(image)">✖</button>
+            </div>
+            <!-- ab hier placeholder -->
+            <div class="bild" *ngFor="let _ of placeholders(); let i = index;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="98" height="98" viewBox="0 0 98 98" fill="none">
+                    <path d="M17.4447 84.6389L44.3804 57.7032C45.9974 56.0862 46.8063 55.2773 47.7386 54.9747C48.5585 54.7081 49.4421 54.7081 50.2621 54.9747C51.1943 55.2773 52.0032 56.0862 53.6202 57.7032L80.3762 84.4593M57.167 61.25L68.8804 49.5366C70.4974 47.9196 71.3063 47.1106 72.2386 46.8081C73.0585 46.5414 73.9421 46.5414 74.7621 46.8081C75.6943 47.1106 76.5032 47.9196 78.1202 49.5366L89.8337 61.25M40.8337 36.75C40.8337 41.2605 37.1773 44.9167 32.667 44.9167C28.1567 44.9167 24.5003 41.2605 24.5003 36.75C24.5003 32.2397 28.1567 28.5833 32.667 28.5833C37.1773 28.5833 40.8337 32.2397 40.8337 36.75ZM27.767 85.75H70.2337C77.0945 85.75 80.5245 85.75 83.1452 84.4148C85.4502 83.2404 87.324 81.3665 88.4984 79.0615C89.8337 76.4408 89.8337 73.0108 89.8337 66.15V31.85C89.8337 24.9893 89.8337 21.559 88.4984 18.9386C87.324 16.6336 85.4502 14.7596 83.1452 13.5852C80.5245 12.25 77.0945 12.25 70.2337 12.25H27.767C20.9063 12.25 17.476 12.25 14.8556 13.5852C12.5506 14.7596 10.6766 16.6336 9.50216 18.9386C8.16699 21.559 8.16699 24.9893 8.16699 31.85V66.15C8.16699 73.0108 8.16699 76.4408 9.50216 79.0615C10.6766 81.3665 12.5506 83.2404 14.8556 84.4148C17.476 85.75 20.9063 85.75 27.767 85.75Z" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlay">
+  <button class="finishit" [routerLink]="['/']" routerLinkActive="router-link-active">Fertig</button>
+</div>
