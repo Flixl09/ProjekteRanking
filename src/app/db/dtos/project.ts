@@ -1,6 +1,6 @@
 export class ProjectDto {
   projectid!: number;              // DIE ID DES PROJEKTS
-  leader!: number;                 // Der Projektleiter
+  leader!: UserDto;                 // Der Projektleiter
   imageurl!: string;              // Das Projektbild
   title!: string;                 // Der Projekttitel
   description!: string;          // Die Projektbeschreibung
@@ -15,4 +15,15 @@ export class ProjectDto {
   color!: string;                // Projektfarbe (Hex)
   shortdesc!: string;            // Kurzbeschreibung (max 60 Zeichen)
   favourites!: number;           // Anzahl der Favoriten
+  voted?: boolean;               // Ob der Mitarbeiter das Projekt bereits gevotet hat
+}
+
+export class UserDto {
+  employeeid!: number;          // DIE ID DES MITARBEITERS
+  name!: string;                // Der Name des Mitarbeiters
+
+  plainToInstance(plain: any): this {
+    Object.assign(this, plain);
+    return this;
+  }
 }

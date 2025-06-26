@@ -1,44 +1,50 @@
-<div class="card-container" *ngIf="true">
+<div class="card-container" *ngIf="actualProject">
     <div class="topbar">
         <div class="leftbar">
-            <p class="ptitle">TGM-Sicherheit</p>
+            <p class="ptitle">{{ actualProject!.title }}</p>
             <div class="facts">
                 <p class="contitle">Projektleitung</p>
-                <p class="user">Marc Simon PROCHAZKA</p>
+                <p class="user">{{ actualProject!.leader!.name }}</p>
             </div>
         </div>
         <div class="rightbar">
             <div class="placeholder-image">
-                <svg xmlns="http://www.w3.org/2000/svg" width="99" height="98" viewBox="0 0 99 98" fill="none">
-                    <path d="M18.0477 84.6389L44.9835 57.7032C46.6005 56.0862 47.4094 55.2773 48.3416 54.9747C49.1615 54.7081 50.0452 54.7081 50.8651 54.9747C51.7973 55.2773 52.6062 56.0862 54.2232 57.7032L80.9793 84.4593M57.77 61.25L69.4835 49.5366C71.1005 47.9196 71.9094 47.1106 72.8416 46.8081C73.6615 46.5414 74.5452 46.5414 75.3651 46.8081C76.2973 47.1106 77.1062 47.9196 78.7232 49.5366L90.4367 61.25M41.4367 36.75C41.4367 41.2605 37.7803 44.9167 33.27 44.9167C28.7597 44.9167 25.1034 41.2605 25.1034 36.75C25.1034 32.2397 28.7597 28.5833 33.27 28.5833C37.7803 28.5833 41.4367 32.2397 41.4367 36.75ZM28.37 85.75H70.8367C77.6975 85.75 81.1275 85.75 83.7482 84.4148C86.0532 83.2404 87.9271 81.3665 89.1014 79.0615C90.4367 76.4408 90.4367 73.0108 90.4367 66.15V31.85C90.4367 24.9893 90.4367 21.559 89.1014 18.9386C87.9271 16.6336 86.0532 14.7596 83.7482 13.5852C81.1275 12.25 77.6975 12.25 70.8367 12.25H28.37C21.5094 12.25 18.079 12.25 15.4586 13.5852C13.1536 14.7596 11.2796 16.6336 10.1052 18.9386C8.77002 21.559 8.77002 24.9893 8.77002 31.85V66.15C8.77002 73.0108 8.77002 76.4408 10.1052 79.0615C11.2796 81.3665 13.1536 83.2404 15.4586 84.4148C18.079 85.75 21.5094 85.75 28.37 85.75Z" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <img [src]="actualProject!.imageurl" alt="Projektbild" width="500vw"/>
             </div>
         </div>
     </div>
     <div class="intro">
         <p class="ititle">Description</p>
-        <p class="itext">Diese App soll zur Sicherheit der Schule beitragen indem sie Planung und Koordinierung der Ersthelfer ermöglichen soll.<br/>  • Erstes Argument<br/>  • Zweites Argument<br/>  • Drittes Argument<br/>...</p>
+        <p class="itext">{{ actualProject!.description }}</p>
     </div>
     <div class="buttonrow">
-        <button class="butts supervote">
+        <button class="butts supervote" (click)="vote(actualProject!, VoteTypes.FAVOURITE)" clickable>
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
                 <path d="M31.7918 33L22.6252 23.8333L13.4585 33M31.7918 20.1667L22.6252 11L13.4585 20.1667" stroke="#58A6FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <button class="butts upvote">
+        <button class="butts upvote" (click)="vote(actualProject!, VoteTypes.UPVOTE)" clickable>
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
                 <path d="M15.5415 25.6667C15.5415 25.6667 18.2915 29.3333 22.8748 29.3333C27.4582 29.3333 30.2082 25.6667 30.2082 25.6667M28.3748 16.5H28.3932M17.3748 16.5H17.3932M41.2082 22C41.2082 32.1251 33 40.3333 22.8748 40.3333C12.7496 40.3333 4.5415 32.1251 4.5415 22C4.5415 11.8748 12.7496 3.66669 22.8748 3.66669C33 3.66669 41.2082 11.8748 41.2082 22ZM29.2915 16.5C29.2915 17.0063 28.881 17.4167 28.3748 17.4167C27.8686 17.4167 27.4582 17.0063 27.4582 16.5C27.4582 15.9938 27.8686 15.5834 28.3748 15.5834C28.881 15.5834 29.2915 15.9938 29.2915 16.5ZM18.2915 16.5C18.2915 17.0063 17.8811 17.4167 17.3748 17.4167C16.8686 17.4167 16.4582 17.0063 16.4582 16.5C16.4582 15.9938 16.8686 15.5834 17.3748 15.5834C17.8811 15.5834 18.2915 15.9938 18.2915 16.5Z" stroke="#34CC50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <button class="butts meh">
+        <button class="butts meh" (click)="vote(actualProject!, VoteTypes.MEH)" clickable>
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
                 <path d="M14.7915 27.5H29.4582M27.6248 16.5H27.6432M16.6248 16.5H16.6432M40.4582 22C40.4582 32.1251 32.25 40.3333 22.1248 40.3333C11.9996 40.3333 3.7915 32.1251 3.7915 22C3.7915 11.8748 11.9996 3.66669 22.1248 3.66669C32.25 3.66669 40.4582 11.8748 40.4582 22ZM28.5415 16.5C28.5415 17.0063 28.131 17.4167 27.6248 17.4167C27.1186 17.4167 26.7082 17.0063 26.7082 16.5C26.7082 15.9938 27.1186 15.5834 27.6248 15.5834C28.131 15.5834 28.5415 15.9938 28.5415 16.5ZM17.5415 16.5C17.5415 17.0063 17.1311 17.4167 16.6248 17.4167C16.1186 17.4167 15.7082 17.0063 15.7082 16.5C15.7082 15.9938 16.1186 15.5834 16.6248 15.5834C17.1311 15.5834 17.5415 15.9938 17.5415 16.5Z" stroke="#6F6F6F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <button class="butts downvote">
+        <button class="butts downvote" (click)="vote(actualProject!, VoteTypes.DOWNVOTE)" clickable>
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
                 <path d="M29.7082 29.3333C29.7082 29.3333 26.9582 25.6667 22.3748 25.6667C17.7915 25.6667 15.0415 29.3333 15.0415 29.3333M27.8748 16.5H27.8932M16.8748 16.5H16.8932M40.7082 22C40.7082 32.1251 32.5 40.3333 22.3748 40.3333C12.2496 40.3333 4.0415 32.1251 4.0415 22C4.0415 11.8748 12.2496 3.66669 22.3748 3.66669C32.5 3.66669 40.7082 11.8748 40.7082 22ZM28.7915 16.5C28.7915 17.0063 28.381 17.4167 27.8748 17.4167C27.3686 17.4167 26.9582 17.0063 26.9582 16.5C26.9582 15.9938 27.3686 15.5834 27.8748 15.5834C28.381 15.5834 28.7915 15.9938 28.7915 16.5ZM17.7915 16.5C17.7915 17.0063 17.3811 17.4167 16.8748 17.4167C16.3686 17.4167 15.9582 17.0063 15.9582 16.5C15.9582 15.9938 16.3686 15.5834 16.8748 15.5834C17.3811 15.5834 17.7915 15.9938 17.7915 16.5Z" stroke="#FF5454" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
     </div>
+</div>
+
+<div class="loading" *ngIf="!actualProject">
+    <div class="loader"></div>
+    <p>Keine Projekte mehr zum abstimmen!</p>
+    <p>Danke fürs mitwirken c:</p>
+    <a [routerLink]="[ '/' ]">Zurück zur übersicht</a>    
+
 </div>
