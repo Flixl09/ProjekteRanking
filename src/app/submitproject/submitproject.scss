@@ -61,8 +61,7 @@
 
       .inputtitle {
         color: rgba(0, 0, 0, 0.40);
-        font-family: Inter;
-        font-size: 24px;
+        font-size: 18px;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
@@ -75,10 +74,33 @@
         align-items: center;
         gap: 10px;
         align-self: stretch;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
 
         border-radius: 5px;
-        background: rgba(255, 255, 255, 0.20);
+        background: rgb(255, 255, 255);
         box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.17);
+        outline: none;
+
+        &:is(:autofill, :-internal-autofill-selected, :-webkit-autofill, :-webkit-autofill:hover, :-webkit-autofill:focus, :-webkit-autofill:active) {
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: #000;
+          transition: background-color 5000s ease-in-out 0s;
+          padding: 15px 10px;
+          margin: none;
+          box-shadow: inset 0 0 20px 20px #fff;
+          box-shadow: 0px 0px 6px 0px rgba(88, 166, 255, 1);
+        }
+
+
+        /* input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+    color: fieldtext !important;
+} */
       }
     }
 
@@ -91,7 +113,7 @@
 
       border-radius: 8px;
       background: rgba(88, 166, 255, 0.05);
-      box-shadow: 0px 0px 7px 0px var(--TGMBlau, #58A6FF);
+      box-shadow: 0px 0px 7px 0px #58A6FF;
 
       color: #000;
       font-family: Inter;

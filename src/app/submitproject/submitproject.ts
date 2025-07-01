@@ -41,7 +41,7 @@ export class Submitproject{
   protected account: AccountService;
   protected db: DbService;
 
-  protected bildoverlaytoggle: boolean = true;
+  protected bildoverlaytoggle: boolean = false;
 
 
   changeEditProjectName() {
