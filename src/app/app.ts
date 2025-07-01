@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Navbar } from './navbar/navbar';
+import { AccountService } from './account';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,7 @@ import { Navbar } from './navbar/navbar';
 })
 export class App {
   protected title = 'ProjekteRanking';
+
+  constructor(account: AccountService) {
+  }
 }

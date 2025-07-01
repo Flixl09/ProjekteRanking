@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DbService } from '../db/db';
 import { CommonModule } from '@angular/common';
 import { ProjectDto } from '../db/dtos/project';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { VoteTypes } from '../db/votetypes';
+import { AccountService } from '../account';
 
 @Component({
   selector: 'app-listview',
@@ -12,46 +13,63 @@ import { VoteTypes } from '../db/votetypes';
   styleUrl: './listview.scss'
 })
 export class Listview implements OnInit, OnDestroy {
-  db: DbService;
   projects: ProjectDto[] = [];
-  activeUser: number;
   fav: number | undefined;
   private intervalId: any;
+  protected account: AccountService
 
-  constructor(db: DbService) {
-    this.db = db;
-    this.activeUser = 92041720210421; // ACHTUNG EMPLOYEEID PLACEHOLDER
+  constructor(private db: DbService, account: AccountService) {
+    this.account = account;
     this.loadProjects();
+    this.account.finished$.subscribe((finished) => {
+      if (finished) {
+        this.loadProjects();
+      }
+    });
   }
+
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }
+
   ngOnInit(): void {
     this.intervalId = setInterval(() => this.loadProjects(), 30000);
   }
 
   loadProjects() {
-    this.db.getUnvotedProjects(this.activeUser).then((unvotedProjects) => {
-      this.db.getVotedProjects(this.activeUser).then((votedProjects) => {
-        this.projects = [...unvotedProjects, ...votedProjects];
+    if (this.account.isLoggedIn()) {
+      this.db.getUnvotedProjects(this.account.getAuthkey()!).then((unvotedProjects) => {
+        this.db.getVotedProjects(this.account.getAuthkey()!).then((votedProjects) => {
+          this.projects = [...unvotedProjects, ...votedProjects];
+          this.projects.sort((a, b) => a.title.localeCompare(b.title));
+        }).catch((error) => {
+          console.error('Error fetching projects:', error);
+        });
+      });
+      this.db.getFavoriteProject(this.account.getAuthkey()!).then((favProjectId) => {
+        if (favProjectId === -1) {
+          this.fav = undefined;
+        }
+        this.fav = favProjectId;
+      });
+    } else {
+      this.db.getAllProjects().then((projects) => {
+        this.projects = projects;
         this.projects.sort((a, b) => a.title.localeCompare(b.title));
       }).catch((error) => {
         console.error('Error fetching projects:', error);
       });
-    });
-    this.db.getFavoriteProject(this.activeUser).then((favProjectId) => {
-      this.fav = favProjectId;
-      console.log(favProjectId);
-    });
+      this.fav = undefined;
+    }
   }
 
   async favourise(projectId: number) {
     if (this.fav === projectId) {
       this.fav = undefined;
-      this.db.voteForProject(projectId, VoteTypes.FAVOURITE, this.activeUser);
+      await this.db.voteForProject(projectId, VoteTypes.UNFAVOURITE, this.account.getAuthkey()!);
     } else {
       this.fav = projectId;
-      await this.db.voteForProject(projectId, VoteTypes.FAVOURITE, this.activeUser);
+      await this.db.voteForProject(projectId, VoteTypes.FAVOURITE, this.account.getAuthkey()!);
     }
     this.loadProjects();
   }

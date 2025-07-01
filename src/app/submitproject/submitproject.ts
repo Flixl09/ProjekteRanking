@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, ElementRef, NgModule, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AccountService } from '../account';
+import { DbService } from '../db/db';
+import { UserDto } from '../db/dtos/project';
 
 @Component({
   selector: 'app-submitproject',
@@ -15,33 +18,94 @@ export class Submitproject{
       const count = 10 - this.projectImagesUrls.length;
       return new Array(count);
   }
-
+  protected showImageUpload: boolean = false;
   protected imageCount: number = 10;
 
-  protected projectName: string = 'PlaceholderName';
+  protected projectName!: string;
   protected editProjectName: boolean = false;
 
-  protected projectDescription: string = 'PlaceholderDescription';
+  protected projectDescription!: string;
   protected editProjectDescription: boolean = false;
 
-  protected projectShortDescription: string = 'PlaceholderShortDescription';
+  protected projectShortDescription!: string;
   protected editProjectShortDescription: boolean = false;
 
-  protected projectLink: string = 'https://example.com';
+  protected projectLink!: string;
   protected editProjectLink: boolean = false;
 
-  protected projectImagesUrls: string[] = [
-    "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
-    "https://www.gmund.com/shop/media/catalog/product/cache/ed18249e57a555397e203784300f83ad/g/m/gmund_papier_cotton_max_white_flat_4740.jpg"
-  ];
-
+  protected projectImagesUrls!: string[];
   protected editProjectImagesUrls: boolean = false;
+
+  protected projectColor: string = '#FFFFFF';
+
+  protected account: AccountService;
+  protected db: DbService;
+
+
+  changeEditProjectName() {
+    this.editProjectName = !this.editProjectName;
+    sessionStorage.setItem('projectName', this.projectName);
+  }
+
+  changeEditProjectDescription() {
+    this.editProjectDescription = !this.editProjectDescription;
+    sessionStorage.setItem('projectDescription', this.projectDescription);
+  }
+
+  changeEditProjectShortDescription() {
+    this.editProjectShortDescription = !this.editProjectShortDescription;
+    sessionStorage.setItem('projectShortDescription', this.projectShortDescription);
+  }
+
+  changeEditProjectLink() {
+    this.editProjectLink = !this.editProjectLink;
+    sessionStorage.setItem('projectLink', this.projectLink);
+  }
+
+  changeEditProjectImagesUrls() {
+    this.editProjectImagesUrls = !this.editProjectImagesUrls;
+    sessionStorage.setItem('projectImagesUrls', JSON.stringify(this.projectImagesUrls));
+  }
 
   removeImage(image: string) {
     const index = this.projectImagesUrls.indexOf(image);
     if (index > -1) {
       this.projectImagesUrls.splice(index, 1);
     }
+  }
+
+  constructor(account: AccountService, db: DbService) {
+    this.account = account;
+    this.db = db;
+    this.loadProject();
+  }
+
+  loadProject() {
+    this.projectName = sessionStorage.getItem('projectName') || 'PlaceholderName';
+    this.projectDescription = sessionStorage.getItem('projectDescription') || 'PlaceholderDescription';
+    this.projectShortDescription = sessionStorage.getItem('projectShortDescription') || 'PlaceholderShortDescription';
+    this.projectLink = sessionStorage.getItem('projectLink') || 'https://example.com';
+    const images = sessionStorage.getItem('projectImagesUrls');
+    this.projectImagesUrls = images ? JSON.parse(images) : ["https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"];
+  }
+
+  onSubmit() {
+    this.db.pushProject(this.account.getAuthkey()!, {
+      title: this.projectName,
+      description: this.projectDescription,
+      shortdesc: this.projectShortDescription,
+      projecturl: this.projectLink,
+      color: this.projectColor.replace('#', ''),
+      leader: {
+        authkey: this.account.getAuthkey()!,
+        name: this.account.getName(),
+      },
+      authorized: false,
+    }, this.projectImagesUrls).then(() => {
+      console.log('Project submitted successfully');
+    }).catch(error => {
+      console.error('Error submitting project:', error);
+    });
   }
 
 
@@ -65,5 +129,18 @@ export class Submitproject{
 
   onDragEnd() {
     this.isDragging = false;
+  }
+
+
+  @ViewChild('colorref') colorinputref!: ElementRef<HTMLImageElement>;
+
+  triggerPicker() {
+    console.log("pssst triggerPicker wollte dir nur sagen, dass er funktioniert :D")
+    this.colorinputref.nativeElement.click();
+  }
+
+  onColorChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.projectColor = input.value
   }
 }

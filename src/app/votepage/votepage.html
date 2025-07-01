@@ -9,7 +9,7 @@
         </div>
         <div class="rightbar">
             <div class="placeholder-image">
-                <img [src]="actualProject!.imageurl" alt="Projektbild" width="500vw"/>
+                <img [src]="" alt="Projektbild" width="500vw"/>
             </div>
         </div>
     </div>
@@ -18,11 +18,6 @@
         <p class="itext">{{ actualProject!.description }}</p>
     </div>
     <div class="buttonrow">
-        <button class="butts supervote" (click)="vote(actualProject!, VoteTypes.FAVOURITE)" clickable>
-            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
-                <path d="M31.7918 33L22.6252 23.8333L13.4585 33M31.7918 20.1667L22.6252 11L13.4585 20.1667" stroke="#58A6FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
         <button class="butts upvote" (click)="vote(actualProject!, VoteTypes.UPVOTE)" clickable>
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
                 <path d="M15.5415 25.6667C15.5415 25.6667 18.2915 29.3333 22.8748 29.3333C27.4582 29.3333 30.2082 25.6667 30.2082 25.6667M28.3748 16.5H28.3932M17.3748 16.5H17.3932M41.2082 22C41.2082 32.1251 33 40.3333 22.8748 40.3333C12.7496 40.3333 4.5415 32.1251 4.5415 22C4.5415 11.8748 12.7496 3.66669 22.8748 3.66669C33 3.66669 41.2082 11.8748 41.2082 22ZM29.2915 16.5C29.2915 17.0063 28.881 17.4167 28.3748 17.4167C27.8686 17.4167 27.4582 17.0063 27.4582 16.5C27.4582 15.9938 27.8686 15.5834 28.3748 15.5834C28.881 15.5834 29.2915 15.9938 29.2915 16.5ZM18.2915 16.5C18.2915 17.0063 17.8811 17.4167 17.3748 17.4167C16.8686 17.4167 16.4582 17.0063 16.4582 16.5C16.4582 15.9938 16.8686 15.5834 17.3748 15.5834C17.8811 15.5834 18.2915 15.9938 18.2915 16.5Z" stroke="#34CC50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -38,13 +33,26 @@
                 <path d="M29.7082 29.3333C29.7082 29.3333 26.9582 25.6667 22.3748 25.6667C17.7915 25.6667 15.0415 29.3333 15.0415 29.3333M27.8748 16.5H27.8932M16.8748 16.5H16.8932M40.7082 22C40.7082 32.1251 32.5 40.3333 22.3748 40.3333C12.2496 40.3333 4.0415 32.1251 4.0415 22C4.0415 11.8748 12.2496 3.66669 22.3748 3.66669C32.5 3.66669 40.7082 11.8748 40.7082 22ZM28.7915 16.5C28.7915 17.0063 28.381 17.4167 27.8748 17.4167C27.3686 17.4167 26.9582 17.0063 26.9582 16.5C26.9582 15.9938 27.3686 15.5834 27.8748 15.5834C28.381 15.5834 28.7915 15.9938 28.7915 16.5ZM17.7915 16.5C17.7915 17.0063 17.3811 17.4167 16.8748 17.4167C16.3686 17.4167 15.9582 17.0063 15.9582 16.5C15.9582 15.9938 16.3686 15.5834 16.8748 15.5834C17.3811 15.5834 17.7915 15.9938 17.7915 16.5Z" stroke="#FF5454" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
+        <button class="butts supervote" (click)="back()" clickable>
+            <svg width="45" height="44" viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.875 16.5H30.625C35.1814 16.5 38.875 20.1936 38.875 24.75C38.875 29.3064 35.1814 33 30.625 33H22.375M5.875 16.5L13.2083 9.16669M5.875 16.5L13.2083 23.8334" stroke="#CEC32E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
     </div>
 </div>
 
-<div class="loading" *ngIf="!actualProject">
-    <div class="loader"></div>
+<div class="centralmessage" *ngIf="!actualProject && this.account.isLoggedIn()">
+    <h1>FinishedIT</h1>
+    <p>Du hast alle Projekte bewertet<br/>Danke für deinen Beitrag :D</p>
+    <a class="m-top" [routerLink]="[ '/' ]">Zurück zur Übersicht</a>
+    <!-- <div class="loader"></div>
     <p>Keine Projekte mehr zum abstimmen!</p>
     <p>Danke fürs mitwirken c:</p>
-    <a [routerLink]="[ '/' ]">Zurück zur übersicht</a>    
+    <a [routerLink]="[ '/' ]">Zurück zur übersicht</a> -->
+</div>
 
+<div class="centralmessage error" *ngIf="!this.account.isLoggedIn()">
+  <h1>Fehler :/</h1>
+    <p>Du musst eingeloggt sein um abstimmen zu können.</p>
+    <a class="m-top" [routerLink]="[ '/login' ]">Hier einloggen</a>
 </div>

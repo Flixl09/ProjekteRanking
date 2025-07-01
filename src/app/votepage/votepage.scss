@@ -1,7 +1,12 @@
 :host(app-votepage) {
+  position: relative;
   display: flex;
+  flex: 1;
+  align-self: stretch;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+
 }
 
 .card-container {
@@ -17,6 +22,7 @@
   border-radius: 25px;
   background: #fff;
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.17);
+
   .topbar {
     display: flex;
     height: 180px;
@@ -30,6 +36,7 @@
       align-items: flex-start;
       gap: 10px;
       flex: 1 0 0;
+
       .ptitle {
         display: flex;
         height: 69px;
@@ -49,6 +56,7 @@
         font-weight: 700;
         line-height: normal;
       }
+
       .facts {
         display: flex;
         padding: 20px 25px;
@@ -69,6 +77,7 @@
           font-weight: 700;
           line-height: normal;
         }
+
         .user {
           align-self: stretch;
 
@@ -81,6 +90,7 @@
         }
       }
     }
+
     .rightbar {
       display: flex;
       padding-left: 13px;
@@ -88,6 +98,7 @@
       align-items: center;
       gap: 10px;
       align-self: stretch;
+
       .placeholder-image {
         display: flex;
         width: 319.896px;
@@ -102,6 +113,7 @@
       }
     }
   }
+
   .intro {
     display: flex;
     padding: 20px 25px;
@@ -114,6 +126,7 @@
     border-radius: 8px;
     background: #fff;
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.17);
+
     .ititle {
       display: flex;
       flex-direction: column;
@@ -121,6 +134,7 @@
       gap: 10px;
       flex: 1 0 0;
     }
+
     .itext {
       color: #000;
       font-family: Inter;
@@ -130,6 +144,7 @@
       line-height: normal;
     }
   }
+
   .buttonrow {
     display: flex;
     align-items: center;
@@ -152,14 +167,17 @@
       border-color: transparent;
 
       &.supervote {
-        box-shadow: 0px 0px 5px 1px #58a6ff;
+        box-shadow: 0px 0px 5px 1px #CEC32E;
       }
+
       &.upvote {
         box-shadow: 0px 0px 5px 1px #34cc50;
       }
+
       &.meh {
         box-shadow: 0px 0px 5px 1px #6f6f6f;
       }
+
       &.downvote {
         box-shadow: 0px 0px 5px 1px #ff5454;
       }

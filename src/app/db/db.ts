@@ -9,6 +9,7 @@ import { VoteTypes } from './votetypes';
 export class DbService {
 
   http: HttpClient;
+  hosturl: String = "https://projektrankapi.gordlby.at";
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -16,7 +17,7 @@ export class DbService {
 
   async getAllProjects(): Promise<ProjectDto[]> {
     try {
-      const response = await this.http.get<ProjectDto[]>(`http://localhost:5000/api/projects`).toPromise();
+      const response = await this.http.get<ProjectDto[]>(`${this.hosturl}/api/projects`).toPromise();
       return this.plainToInstances(ProjectDto, response!);
     } catch (error) {
       console.error('Error fetching projects:', error);
@@ -24,9 +25,9 @@ export class DbService {
     }
   }
 
-  async getUnvotedProjects(employeeId: number): Promise<ProjectDto[]> {
+  async getUnvotedProjects(authkey: string): Promise<ProjectDto[]> {
     try {
-      const response = await this.http.get<ProjectDto[]>(`http://localhost:5000/api/projects/unvoted/${employeeId}`).toPromise();
+      const response = await this.http.get<ProjectDto[]>(`${this.hosturl}/api/projects/unvoted/${authkey}`).toPromise();
       return this.plainToInstances(ProjectDto, response!);
     } catch (error) {
       console.error('Error fetching unvoted projects:', error);
@@ -34,36 +35,79 @@ export class DbService {
     }
   }
 
-  async getVotedProjects(employeeId: number): Promise<ProjectDto[]> {
+  async getVotedProjects(authkey: string): Promise<ProjectDto[]> {
     try {
-      const response = await this.http.get<ProjectDto[]>(`http://localhost:5000/api/projects/voted/${employeeId}`).toPromise();
+      const response = await this.http.get<ProjectDto[]>(`${this.hosturl}/api/projects/voted/${authkey}`).toPromise();
       return this.plainToInstances(ProjectDto, response!);
     } catch (error) {
       console.error('Error fetching voted projects:', error);
       return [];
     }
   }
-  
 
-  async voteForProject(projectId: number, votetype: VoteTypes, employeeid: number): Promise<void> {
+  async voteForProject(projectId: number, votetype: VoteTypes, authkey: string): Promise<void> {
     try {
-      console.log(`Voting for project ${projectId} with type ${votetype} by employee ${employeeid}`);
-      await this.http.post(`http://localhost:5000/api/votes`, {employeeid: employeeid, projectid: projectId, votetype: votetype.valueOf()}).toPromise(); 
+      await this.http.post(`${this.hosturl}/api/votes`, {employeeid: authkey, projectid: projectId, votetype: votetype.valueOf()}).toPromise();
     } catch (error) {
       console.error('Error voting for project:', error);
     }
   }
 
-  async getFavoriteProject(employeeId: number): Promise<number> {
+  async getFavoriteProject(authkey: string): Promise<number> {
     try {
-      const response = await this.http.get<{ projectid: number }>(`http://localhost:5000/api/favourite/${employeeId}`).toPromise();
-      return response!.projectid || -1; // Return -1 if no favourite project found
+      const response = await this.http.get<{ projectid: number }>(`${this.hosturl}/api/favourite/${authkey}`).toPromise();
+      if (response!.projectid === -1) {
+        return -1;
+      }
+      return response!.projectid || -1;
     } catch (error) {
-      console.error('Error fetching favorite project:', error);
-      return -1; // Return -1 or some other value to indicate no favorite found
+      return -1;
     }
   }
 
+  async validateAuthkey(authkey: string): Promise<boolean> {
+    try {
+      const response = await this.http.post<boolean>(`${this.hosturl}/api/user/validate`, {authkey: authkey}).toPromise();
+      console.log('Authkey validation response:', response);
+      return true;
+    } catch (error) {
+      console.error('Error validating authkey:', error);
+      return false;
+    }
+  }
+
+  async login(username: string, password: string): Promise<string | null> {
+    try {
+      const response = await this.http.post<{ authkey: string }>(`${this.hosturl}/api/user/login`, { username: username, password: password }).toPromise();
+      if (response && response.authkey) {
+        return response.authkey;
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+    return null;
+  }
+
+  async getUserData(authkey: string): Promise<UserDto | null> {
+    try {
+      const response = await this.http.get<UserDto>(`${this.hosturl}/api/user/${authkey}`).toPromise();
+      if (response) {
+        return this.plainToInstance(UserDto, response);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+    return null;
+  }
+
+  async pushProject(authkey: string, project: ProjectDto, images: string[]): Promise<void> {
+    try {
+      const response = await this.http.post(`${this.hosturl}/api/projects`, { authkey: authkey, project: project }).toPromise();
+      console.log('Project pushed successfully:', response);
+    } catch (error) {
+      console.error('Error pushing project:', error);
+    }
+  }
 
   plainToInstance(cls: any, plain: any): any {
     const instance = new cls();
@@ -73,7 +117,7 @@ export class DbService {
         if (instance[key] instanceof Date) {
           instance[key] = new Date(plain[key]);
         } else if (Array.isArray(instance[key])) {
-          instance[key] = new UserDto().plainToInstance(plain[key]);
+          instance[key] = plain[key].map((item: any) => this.plainToInstance(item.constructor, item));
         }
         instance[key] = plain[key];
       }

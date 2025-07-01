@@ -1,0 +1,50 @@
+<form class="login-cont" [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!this.account.isLoggedIn() && !this.wrongLogin">
+  <div class="titlebar">
+    <p class="title">Login</p>
+  </div>
+
+  <div class="inputblock">
+    <label class="inputtitle" for="name">Name</label>
+    <input type="text" id="name" formControlName="username" required />
+    <div class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+      <p class="error-text">Name ist erforderlich.</p>
+    </div>
+  </div>
+
+  <div class="inputblock">
+    <label class="inputtitle" for="passwort">Passwort</label>
+    <input type="password" id="passwort" formControlName="password" required />
+    <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+      <p class="error-text">Passwort ist erforderlich.</p>
+    </div>
+  </div>
+
+  <div class="buttonbar">
+    <button class="confirm" type="submit" [disabled]="loginForm.invalid">Weiter</button>
+  </div>
+</form>
+
+<div class="login-cont" *ngIf="this.account.isLoggedIn() && !this.wrongLogin">
+  <div class="titlebar">
+    <p class="title">Willkommen, {{ this.account.getName() }}!</p>
+  </div>
+  <div class="info">
+    <label for="stats">Votes</label>
+    <p class="info-text" id="stats">Du hast {{ this.account.getVotes() }} gevoted</p>
+  </div>
+  <div class="buttonbar">
+    <button class="confirm" (click)="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="login-cont" *ngIf="this.wrongLogin">
+  <div class="titlebar">
+    <p class="title">Login fehlgeschlagen</p>
+  </div>
+  <div class="error">
+    <p class="error-text">Der Name oder das Passwort ist falsch.</p>
+  </div>
+  <div class="buttonbar">
+    <button class="confirm" (click)="wrongLogin = false">OK</button>
+  </div>
+</div>
