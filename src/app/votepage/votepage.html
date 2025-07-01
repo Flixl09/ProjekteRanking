@@ -1,51 +1,63 @@
 <div class="card-container" *ngIf="actualProject">
-    <div class="topbar">
-        <div class="leftbar">
-            <p class="ptitle">{{ actualProject!.title }}</p>
-            <div class="facts">
-                <p class="contitle">Projektleitung</p>
-                <p class="user">{{ actualProject!.leader!.name }}</p>
-            </div>
-        </div>
-        <div class="rightbar">
-            <div class="placeholder-image">
-                <img [src]="" alt="Projektbild" width="500vw"/>
-            </div>
-        </div>
+  <div class="topbar">
+    <div class="leftbar">
+      <p class="ptitle">{{ actualProject!.title }}</p>
+      <div class="facts">
+        <p class="contitle">Projektleitung</p>
+        <p class="user">{{ actualProject!.leader!.name }}</p>
+      </div>
     </div>
-    <div class="intro">
-        <p class="ititle">Description</p>
-        <p class="itext">{{ actualProject!.description }}</p>
+    <div class="rightbar">
+      <!-- TODO: Hier noch die Image URL einfügen -->
+      <img [src]="" alt="Projektbild" class="topbarimage"/>
     </div>
-    <div class="buttonrow">
-        <button class="butts upvote" (click)="vote(actualProject!, VoteTypes.UPVOTE)" clickable>
-            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
-                <path d="M15.5415 25.6667C15.5415 25.6667 18.2915 29.3333 22.8748 29.3333C27.4582 29.3333 30.2082 25.6667 30.2082 25.6667M28.3748 16.5H28.3932M17.3748 16.5H17.3932M41.2082 22C41.2082 32.1251 33 40.3333 22.8748 40.3333C12.7496 40.3333 4.5415 32.1251 4.5415 22C4.5415 11.8748 12.7496 3.66669 22.8748 3.66669C33 3.66669 41.2082 11.8748 41.2082 22ZM29.2915 16.5C29.2915 17.0063 28.881 17.4167 28.3748 17.4167C27.8686 17.4167 27.4582 17.0063 27.4582 16.5C27.4582 15.9938 27.8686 15.5834 28.3748 15.5834C28.881 15.5834 29.2915 15.9938 29.2915 16.5ZM18.2915 16.5C18.2915 17.0063 17.8811 17.4167 17.3748 17.4167C16.8686 17.4167 16.4582 17.0063 16.4582 16.5C16.4582 15.9938 16.8686 15.5834 17.3748 15.5834C17.8811 15.5834 18.2915 15.9938 18.2915 16.5Z" stroke="#34CC50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-        <button class="butts meh" (click)="vote(actualProject!, VoteTypes.MEH)" clickable>
-            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
-                <path d="M14.7915 27.5H29.4582M27.6248 16.5H27.6432M16.6248 16.5H16.6432M40.4582 22C40.4582 32.1251 32.25 40.3333 22.1248 40.3333C11.9996 40.3333 3.7915 32.1251 3.7915 22C3.7915 11.8748 11.9996 3.66669 22.1248 3.66669C32.25 3.66669 40.4582 11.8748 40.4582 22ZM28.5415 16.5C28.5415 17.0063 28.131 17.4167 27.6248 17.4167C27.1186 17.4167 26.7082 17.0063 26.7082 16.5C26.7082 15.9938 27.1186 15.5834 27.6248 15.5834C28.131 15.5834 28.5415 15.9938 28.5415 16.5ZM17.5415 16.5C17.5415 17.0063 17.1311 17.4167 16.6248 17.4167C16.1186 17.4167 15.7082 17.0063 15.7082 16.5C15.7082 15.9938 16.1186 15.5834 16.6248 15.5834C17.1311 15.5834 17.5415 15.9938 17.5415 16.5Z" stroke="#6F6F6F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-        <button class="butts downvote" (click)="vote(actualProject!, VoteTypes.DOWNVOTE)" clickable>
-            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
-                <path d="M29.7082 29.3333C29.7082 29.3333 26.9582 25.6667 22.3748 25.6667C17.7915 25.6667 15.0415 29.3333 15.0415 29.3333M27.8748 16.5H27.8932M16.8748 16.5H16.8932M40.7082 22C40.7082 32.1251 32.5 40.3333 22.3748 40.3333C12.2496 40.3333 4.0415 32.1251 4.0415 22C4.0415 11.8748 12.2496 3.66669 22.3748 3.66669C32.5 3.66669 40.7082 11.8748 40.7082 22ZM28.7915 16.5C28.7915 17.0063 28.381 17.4167 27.8748 17.4167C27.3686 17.4167 26.9582 17.0063 26.9582 16.5C26.9582 15.9938 27.3686 15.5834 27.8748 15.5834C28.381 15.5834 28.7915 15.9938 28.7915 16.5ZM17.7915 16.5C17.7915 17.0063 17.3811 17.4167 16.8748 17.4167C16.3686 17.4167 15.9582 17.0063 15.9582 16.5C15.9582 15.9938 16.3686 15.5834 16.8748 15.5834C17.3811 15.5834 17.7915 15.9938 17.7915 16.5Z" stroke="#FF5454" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-        <button class="butts supervote" (click)="back()" clickable>
-            <svg width="45" height="44" viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.875 16.5H30.625C35.1814 16.5 38.875 20.1936 38.875 24.75C38.875 29.3064 35.1814 33 30.625 33H22.375M5.875 16.5L13.2083 9.16669M5.875 16.5L13.2083 23.8334" stroke="#CEC32E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-    </div>
+  </div>
+  <div class="intro">
+    <p class="ititle">Description</p>
+    <p class="itext">{{ actualProject!.description }}</p>
+    <a class="detailbutton" [href]="'/detail/'+actualProject.projectid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+        <path d="M20.5 14V16.8C20.5 17.9201 20.5 18.4802 20.282 18.908C20.0903 19.2843 19.7843 19.5903 19.408 19.782C18.9802 20 18.4201 20 17.3 20H14.5M10.5 4H7.7C6.5799 4 6.01984 4 5.59202 4.21799C5.21569 4.40973 4.90973 4.71569 4.71799 5.09202C4.5 5.51984 4.5 6.07989 4.5 7.2V10M15.5 9L21.5 3M21.5 3H15.5M21.5 3V9M9.5 15L3.5 21M3.5 21H9.5M3.5 21V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+  <div class="buttonrow">
+    <button class="butts upvote" (click)="vote(actualProject!, VoteTypes.UPVOTE)" clickable>
+      <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
+        <path
+          d="M15.5415 25.6667C15.5415 25.6667 18.2915 29.3333 22.8748 29.3333C27.4582 29.3333 30.2082 25.6667 30.2082 25.6667M28.3748 16.5H28.3932M17.3748 16.5H17.3932M41.2082 22C41.2082 32.1251 33 40.3333 22.8748 40.3333C12.7496 40.3333 4.5415 32.1251 4.5415 22C4.5415 11.8748 12.7496 3.66669 22.8748 3.66669C33 3.66669 41.2082 11.8748 41.2082 22ZM29.2915 16.5C29.2915 17.0063 28.881 17.4167 28.3748 17.4167C27.8686 17.4167 27.4582 17.0063 27.4582 16.5C27.4582 15.9938 27.8686 15.5834 28.3748 15.5834C28.881 15.5834 29.2915 15.9938 29.2915 16.5ZM18.2915 16.5C18.2915 17.0063 17.8811 17.4167 17.3748 17.4167C16.8686 17.4167 16.4582 17.0063 16.4582 16.5C16.4582 15.9938 16.8686 15.5834 17.3748 15.5834C17.8811 15.5834 18.2915 15.9938 18.2915 16.5Z"
+          stroke="#34CC50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <button class="butts meh" (click)="vote(actualProject!, VoteTypes.MEH)" clickable>
+      <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
+        <path
+          d="M14.7915 27.5H29.4582M27.6248 16.5H27.6432M16.6248 16.5H16.6432M40.4582 22C40.4582 32.1251 32.25 40.3333 22.1248 40.3333C11.9996 40.3333 3.7915 32.1251 3.7915 22C3.7915 11.8748 11.9996 3.66669 22.1248 3.66669C32.25 3.66669 40.4582 11.8748 40.4582 22ZM28.5415 16.5C28.5415 17.0063 28.131 17.4167 27.6248 17.4167C27.1186 17.4167 26.7082 17.0063 26.7082 16.5C26.7082 15.9938 27.1186 15.5834 27.6248 15.5834C28.131 15.5834 28.5415 15.9938 28.5415 16.5ZM17.5415 16.5C17.5415 17.0063 17.1311 17.4167 16.6248 17.4167C16.1186 17.4167 15.7082 17.0063 15.7082 16.5C15.7082 15.9938 16.1186 15.5834 16.6248 15.5834C17.1311 15.5834 17.5415 15.9938 17.5415 16.5Z"
+          stroke="#6F6F6F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <button class="butts downvote" (click)="vote(actualProject!, VoteTypes.DOWNVOTE)" clickable>
+      <svg xmlns="http://www.w3.org/2000/svg" width="45" height="44" viewBox="0 0 45 44" fill="none">
+        <path
+          d="M29.7082 29.3333C29.7082 29.3333 26.9582 25.6667 22.3748 25.6667C17.7915 25.6667 15.0415 29.3333 15.0415 29.3333M27.8748 16.5H27.8932M16.8748 16.5H16.8932M40.7082 22C40.7082 32.1251 32.5 40.3333 22.3748 40.3333C12.2496 40.3333 4.0415 32.1251 4.0415 22C4.0415 11.8748 12.2496 3.66669 22.3748 3.66669C32.5 3.66669 40.7082 11.8748 40.7082 22ZM28.7915 16.5C28.7915 17.0063 28.381 17.4167 27.8748 17.4167C27.3686 17.4167 26.9582 17.0063 26.9582 16.5C26.9582 15.9938 27.3686 15.5834 27.8748 15.5834C28.381 15.5834 28.7915 15.9938 28.7915 16.5ZM17.7915 16.5C17.7915 17.0063 17.3811 17.4167 16.8748 17.4167C16.3686 17.4167 15.9582 17.0063 15.9582 16.5C15.9582 15.9938 16.3686 15.5834 16.8748 15.5834C17.3811 15.5834 17.7915 15.9938 17.7915 16.5Z"
+          stroke="#FF5454" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <button class="butts supervote" (click)="back()" clickable>
+      <svg width="45" height="44" viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M5.875 16.5H30.625C35.1814 16.5 38.875 20.1936 38.875 24.75C38.875 29.3064 35.1814 33 30.625 33H22.375M5.875 16.5L13.2083 9.16669M5.875 16.5L13.2083 23.8334"
+          stroke="#CEC32E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
 </div>
 
 <div class="centralmessage" *ngIf="!actualProject && this.account.isLoggedIn()">
-    <h1>FinishedIT</h1>
-    <p>Du hast alle Projekte bewertet<br/>Danke für deinen Beitrag :D</p>
-    <a class="m-top" [routerLink]="[ '/' ]">Zurück zur Übersicht</a>
-    <!-- <div class="loader"></div>
+  <h1>FinishedIT</h1>
+  <p>Du hast alle Projekte bewertet<br />Danke für deinen Beitrag :D</p>
+  <a class="m-top" [routerLink]="[ '/' ]">Zurück zur Übersicht</a>
+  <!-- <div class="loader"></div>
     <p>Keine Projekte mehr zum abstimmen!</p>
     <p>Danke fürs mitwirken c:</p>
     <a [routerLink]="[ '/' ]">Zurück zur übersicht</a> -->
@@ -53,6 +65,6 @@
 
 <div class="centralmessage error" *ngIf="!this.account.isLoggedIn()">
   <h1>Fehler :/</h1>
-    <p>Du musst eingeloggt sein um abstimmen zu können.</p>
-    <a class="m-top" [routerLink]="[ '/login' ]">Hier einloggen</a>
+  <p>Du musst eingeloggt sein um abstimmen zu können.</p>
+  <a class="m-top" [routerLink]="[ '/login' ]">Hier einloggen</a>
 </div>

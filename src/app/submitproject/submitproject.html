@@ -61,7 +61,7 @@
 
   <div class="bildreihecont">
     <div class="createbuttonrow">
-      <button class="buttonstart">Bild hinzufügen</button>
+      <button class="buttonstart" (click)="startBildOverlay()">Bild hinzufügen</button>
     </div>
     <div class="bildreihe" #bildreihe (mousedown)="onDragStart($event, bildreihe)"
       (mousemove)="onDragMove($event, bildreihe)" (mouseup)="onDragEnd()" (mouseleave)="onDragEnd()">
@@ -85,6 +85,18 @@
   <button class="finishit" [routerLink]="['/']" routerLinkActive="router-link-active"
     *ngIf="!showImageUpload">Fertig</button>
 </div>
+
+<div class="overnavoverlay" *ngIf="bildoverlaytoggle" (click)="exitBildOverlay()">
+  <div class="imgaddcont" (click)="$event.stopPropagation()">
+    <p class="ctitle">Bild hinzufügen</p>
+    <div class="inputblock">
+      <p class="inputtitle">URL</p>
+      <input type="url" name="urlin" id="urlin" class="inputfield"/>
+    </div>
+    <button class="submitbutton" (click)="submitBildOverlay()">Fertig</button>
+  </div>
+</div>
+
 }
 
 @else {

@@ -41,6 +41,8 @@ export class Submitproject{
   protected account: AccountService;
   protected db: DbService;
 
+  protected bildoverlaytoggle: boolean = true;
+
 
   changeEditProjectName() {
     this.editProjectName = !this.editProjectName;
@@ -142,5 +144,17 @@ export class Submitproject{
   onColorChange(event: Event) {
     const input = event.target as HTMLInputElement;
     this.projectColor = input.value
+  }
+
+  protected startBildOverlay() {
+    this.bildoverlaytoggle = true;
+  }
+
+  protected exitBildOverlay() {
+    this.bildoverlaytoggle = false;
+  }
+
+  protected submitBildOverlay() {
+    this.bildoverlaytoggle = false;
   }
 }

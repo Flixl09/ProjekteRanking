@@ -3,9 +3,105 @@
   display: block flex;
   flex: 1;
   align-self: stretch;
-  z-index: 1;
   justify-content: center;
   align-items: center;
+}
+
+.overnavoverlay {
+  position: absolute;
+  height: 100vh;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 0.5);
+  z-index: 91;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+
+  .imgaddcont {
+    position: relative;
+    display: flex;
+    padding: 25px 30px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 40ch;
+    z-index: 92;
+    pointer-events: auto;
+
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+
+    .ctitle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: stretch;
+
+      padding: 7px 20px;
+
+      color: #000;
+      font-family: Inter;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .inputblock {
+      display: flex;
+      padding-bottom: 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      align-self: stretch;
+
+      .inputtitle {
+        color: rgba(0, 0, 0, 0.40);
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+
+      .inputfield {
+        display: flex;
+        padding: 15px 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.20);
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.17);
+      }
+    }
+
+    .submitbutton {
+      display: flex;
+      margin-top: 15px;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 20px;
+
+      border-radius: 8px;
+      background: rgba(88, 166, 255, 0.05);
+      box-shadow: 0px 0px 7px 0px var(--TGMBlau, #58A6FF);
+
+      color: #000;
+      font-family: Inter;
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+  }
 }
 
 .overlay {
@@ -17,6 +113,7 @@
   justify-content: flex-end;
   align-items: flex-end;
   user-select: none;
+  z-index: 2;
 
   .finishit {
     display: flex;
@@ -47,6 +144,7 @@
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  z-index: 1;
 
 
   .titlecomp {
