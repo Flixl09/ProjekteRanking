@@ -154,7 +154,9 @@ export class Submitproject{
     this.bildoverlaytoggle = false;
   }
 
-  protected submitBildOverlay() {
+  protected submitBildOverlay(url: string) {
+    this.projectImagesUrls.push(url);
+    sessionStorage.setItem('projectImagesUrls', JSON.stringify(this.projectImagesUrls));
     this.bildoverlaytoggle = false;
   }
 }

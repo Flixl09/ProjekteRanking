@@ -1,4 +1,4 @@
-<div class="card-container" *ngIf="actualProject">
+<div class="card-container" *ngIf="actualProject" [style.backgroundColor]="'#' + actualProject.color">
   <div class="topbar">
     <div class="leftbar">
       <p class="ptitle">{{ actualProject!.title }}</p>
@@ -9,13 +9,13 @@
     </div>
     <div class="rightbar">
       <!-- TODO: Hier noch die Image URL einfügen -->
-      <img [src]="" alt="Projektbild" class="topbarimage"/>
+      <img [src]="this.actualProjectImage" alt="Projektbild" class="topbarimage"/>
     </div>
   </div>
   <div class="intro">
     <p class="ititle">Description</p>
     <p class="itext">{{ actualProject!.description }}</p>
-    <a class="detailbutton" [href]="'/detail/'+actualProject.projectid">
+    <a class="detailbutton" [routerLink]="['/detail', actualProject!.projectid]" routerLinkActive="active">
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
         <path d="M20.5 14V16.8C20.5 17.9201 20.5 18.4802 20.282 18.908C20.0903 19.2843 19.7843 19.5903 19.408 19.782C18.9802 20 18.4201 20 17.3 20H14.5M10.5 4H7.7C6.5799 4 6.01984 4 5.59202 4.21799C5.21569 4.40973 4.90973 4.71569 4.71799 5.09202C4.5 5.51984 4.5 6.07989 4.5 7.2V10M15.5 9L21.5 3M21.5 3H15.5M21.5 3V9M9.5 15L3.5 21M3.5 21H9.5M3.5 21V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>

@@ -14,19 +14,25 @@ export class ProjectDto {
   color!: string;                // Projektfarbe (Hex)
   shortdesc!: string;            // Kurzbeschreibung (max 60 Zeichen)
   favourites?: number;           // Anzahl der Favoriten
+  finishat?: Date;              // Wann das Projekt fertig sein soll
 }
 
 export class UserDto {
   name!: string;                // Der Name des Mitarbeiters
   email?: string;               // Die E-Mail des Mitarbeiters
-  authkey!: string;             // Der Authentifizierungsschlüssel des Mitarbeiters
+  authkey?: string;             // Der Authentifizierungsschlüssel des Mitarbeiters
   votes?: number;              // Die Anzahl der abgegebenen Votes des Mitarbeiters
-  favoutire?: number;           // Die ID des Lieblingsprojekts des Mitarbeiters
+  favourite?: number;           // Die ID des Lieblingsprojekts des Mitarbeiters
   editor?: boolean;             // Ob der Mitarbeiter ein Editor ist
 }
 
 export class ImageDto {
-  id!: number;             // Die ID des Bildes
+  id?: number;             // Die ID des Bildes
   projectid!: number;           // Die ID des Projekts, zu dem das Bild gehört
   imageurl!: string;                 // Die URL des Bildes
+
+  constructor(imageurl: string, projectid: number) {
+    this.imageurl = imageurl;
+    this.projectid = projectid;
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
-import { ProjectDto, UserDto } from './dtos/project';
+import { ImageDto, ProjectDto, UserDto } from './dtos/project';
 import { HttpClient } from '@angular/common/http';
 import { VoteTypes } from './votetypes';
 
@@ -106,6 +106,28 @@ export class DbService {
       console.log('Project pushed successfully:', response);
     } catch (error) {
       console.error('Error pushing project:', error);
+    }
+  }
+
+  async getProject(projectId: number): Promise<ProjectDto | null> {
+    try {
+      const response = await this.http.get<ProjectDto>(`${this.hosturl}/api/projects/${projectId}`).toPromise();
+      if (response) {
+        return this.plainToInstance(ProjectDto, response);
+      }
+    } catch (error) {
+      console.error('Error fetching project:', error);
+    }
+    return null;
+  }
+
+  async getProjectImages(projectId: number): Promise<string[]> {
+    try {
+      const response = await this.http.get<any>(`${this.hosturl}/api/projects/images/${projectId}`).toPromise();
+      return response!.images;
+    } catch (error) {
+      console.error('Error fetching project images:', error);
+      return [];
     }
   }
 

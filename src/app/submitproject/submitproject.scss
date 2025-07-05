@@ -355,20 +355,31 @@
       }
 
       .bild {
+        &:first-child {
+          box-shadow: 0px 0px 3px 1px #58a6ff;
+          margin: 4px;
+          img {
+            //border: 3px solid #58a6ff;
+          }
+
+        }
+
         display: flex;
 
         justify-content: center;
-        align-items: center;
+        align-items: stretch;
         align-self: stretch;
         position: relative;
+        overflow: visible;
 
         border-radius: 8px;
         background: #cdcdcd;
 
         img {
           border-radius: 8px;
-          height: 200px;
+          height: auto;
           width: auto;
+          overflow: hidden;
         }
 
         .image-button {
@@ -398,6 +409,7 @@
         svg {
           width: 355.44px;
           aspect-ratio: 355.44/200;
+          margin-block: auto;
         }
       }
     }

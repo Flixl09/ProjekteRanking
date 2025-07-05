@@ -1,5 +1,68 @@
+@if (this.project) {<div class="maincontainer">
+  <div class="topbar">
+    <div class="hardfactcont">
+      <h1 class="tbctitle">Hardfacts</h1>
+      <p class="tbcfact">Projektleiter:<br />{{ this.project!.leader!.name }}</p>
+      <p class="tbcfact">Erstellt: {{ this.project!.createdat | date: "medium" }}</p>
+      <p class="tbcfact">Deadline: {{ this.project!.finishat | date: "medium" }}</p>
+    </div>
+    <!-- <div class="imgcont">
+      <button class="tbcbutton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+          <path d="M28.7941 17.5H6.12744M6.12744 17.5L14.6274 26M6.12744 17.5L14.6274 9" stroke="#686868"
+            stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <img src="" alt="Projektbild">
+      <button class="tbcbutton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+          <path d="M6.20508 17.5H28.8717M28.8717 17.5L20.3717 9M28.8717 17.5L20.3717 26" stroke="#686868"
+            stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div> -->
+    <div class="shortdesccont">
+      <h1 class="tbctitle">Short Description</h1>
+      <p class="tbcdesc">{{ this.project!.shortdesc }}</p>
+    </div>
+  </div>
+  <div class="longdesccont">
+    <h1 class="ldctitle">Langbeschreibung</h1>
+    <p class="ldcdesc">{{ this.project!.description }}</p>
+  </div>
+  <div class="bildreihe" #bildreihe (mousedown)="onDragStart($event, bildreihe)"
+    (mousemove)="onDragMove($event, bildreihe)" (mouseup)="onDragEnd()" (mouseleave)="onDragEnd()">
+    <div class="bild" *ngFor="let image of projectImagesUrls; let i = index;">
+        <img src="{{ image }}" alt="Project Image {{ i + 1 }}" width="100%" height="100%" />
+      </div>
+    <!-- ab hier placeholder -->
+    <div class="bild" *ngFor="let _ of placeholders(); let i = index;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="98" height="98" viewBox="0 0 98 98" fill="none">
+          <path
+            d="M17.4447 84.6389L44.3804 57.7032C45.9974 56.0862 46.8063 55.2773 47.7386 54.9747C48.5585 54.7081 49.4421 54.7081 50.2621 54.9747C51.1943 55.2773 52.0032 56.0862 53.6202 57.7032L80.3762 84.4593M57.167 61.25L68.8804 49.5366C70.4974 47.9196 71.3063 47.1106 72.2386 46.8081C73.0585 46.5414 73.9421 46.5414 74.7621 46.8081C75.6943 47.1106 76.5032 47.9196 78.1202 49.5366L89.8337 61.25M40.8337 36.75C40.8337 41.2605 37.1773 44.9167 32.667 44.9167C28.1567 44.9167 24.5003 41.2605 24.5003 36.75C24.5003 32.2397 28.1567 28.5833 32.667 28.5833C37.1773 28.5833 40.8337 32.2397 40.8337 36.75ZM27.767 85.75H70.2337C77.0945 85.75 80.5245 85.75 83.1452 84.4148C85.4502 83.2404 87.324 81.3665 88.4984 79.0615C89.8337 76.4408 89.8337 73.0108 89.8337 66.15V31.85C89.8337 24.9893 89.8337 21.559 88.4984 18.9386C87.324 16.6336 85.4502 14.7596 83.1452 13.5852C80.5245 12.25 77.0945 12.25 70.2337 12.25H27.767C20.9063 12.25 17.476 12.25 14.8556 13.5852C12.5506 14.7596 10.6766 16.6336 9.50216 18.9386C8.16699 21.559 8.16699 24.9893 8.16699 31.85V66.15C8.16699 73.0108 8.16699 76.4408 9.50216 79.0615C10.6766 81.3665 12.5506 83.2404 14.8556 84.4148C17.476 85.75 20.9063 85.75 27.767 85.75Z"
+            stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    <!-- @for (i of maxPlaceholders; track $index) {
+    <div class="bild">
+      <svg xmlns="http://www.w3.org/2000/svg" width="98" height="98" viewBox="0 0 98 98" fill="none">
+        <path
+          d="M17.4447 84.6389L44.3804 57.7032C45.9974 56.0862 46.8063 55.2773 47.7386 54.9747C48.5585 54.7081 49.4421 54.7081 50.2621 54.9747C51.1943 55.2773 52.0032 56.0862 53.6202 57.7032L80.3762 84.4593M57.167 61.25L68.8804 49.5366C70.4974 47.9196 71.3063 47.1106 72.2386 46.8081C73.0585 46.5414 73.9421 46.5414 74.7621 46.8081C75.6943 47.1106 76.5032 47.9196 78.1202 49.5366L89.8337 61.25M40.8337 36.75C40.8337 41.2605 37.1773 44.9167 32.667 44.9167C28.1567 44.9167 24.5003 41.2605 24.5003 36.75C24.5003 32.2397 28.1567 28.5833 32.667 28.5833C37.1773 28.5833 40.8337 32.2397 40.8337 36.75ZM27.767 85.75H70.2337C77.0945 85.75 80.5245 85.75 83.1452 84.4148C85.4502 83.2404 87.324 81.3665 88.4984 79.0615C89.8337 76.4408 89.8337 73.0108 89.8337 66.15V31.85C89.8337 24.9893 89.8337 21.559 88.4984 18.9386C87.324 16.6336 85.4502 14.7596 83.1452 13.5852C80.5245 12.25 77.0945 12.25 70.2337 12.25H27.767C20.9063 12.25 17.476 12.25 14.8556 13.5852C12.5506 14.7596 10.6766 16.6336 9.50216 18.9386C8.16699 21.559 8.16699 24.9893 8.16699 31.85V66.15C8.16699 73.0108 8.16699 76.4408 9.50216 79.0615C10.6766 81.3665 12.5506 83.2404 14.8556 84.4148C17.476 85.75 20.9063 85.75 27.767 85.75Z"
+          stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+    } -->
+  </div>
+</div>
+} @else {
 <div class="centralmessage error">
+  <h1>?_?</h1>
+  <p>Leider haben wir unter der ID kein Projekt gefunden</p>
+  <a class="m-top" href="/" (click)="_router.navigateByUrl('/')">Zurück zur Startseite</a>
+</div>
+}
+<!-- <div class="centralmessage error">
   <h1>Layer 8 Issue :/</h1>
   <p>Leider war Marc zu faul diese Seite zu implementieren, daher kommt leider jetzt eine Fehlermeldung -_-</p>
   <a class="m-top" href="/" (click)="_router.navigateByUrl('/')">Zurück</a>
-</div>
+</div> -->

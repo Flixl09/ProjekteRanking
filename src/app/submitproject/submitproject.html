@@ -82,7 +82,7 @@
 </div>
 
 <div class="overlay">
-  <button class="finishit" [routerLink]="['/']" routerLinkActive="router-link-active"
+  <button class="finishit" [routerLink]="['/']" routerLinkActive="router-link-active" (click)="onSubmit()"
     *ngIf="!showImageUpload">Fertig</button>
 </div>
 
@@ -91,9 +91,9 @@
     <p class="ctitle">Bild hinzufügen</p>
     <div class="inputblock">
       <p class="inputtitle">URL</p>
-      <input type="url" name="urlin" id="urlin" class="inputfield"/>
+      <input #imginput type="url" name="urlin" id="urlin" class="inputfield"/>
     </div>
-    <button class="submitbutton" (click)="submitBildOverlay()">Fertig</button>
+    <button class="submitbutton" (click)="submitBildOverlay(imginput.value)">Fertig</button>
   </div>
 </div>
 
