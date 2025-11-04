@@ -102,7 +102,7 @@ export class DbService {
 
   async pushProject(authkey: string, project: ProjectDto, images: string[]): Promise<void> {
     try {
-      const response = await this.http.post(`${this.hosturl}/api/projects`, { authkey: authkey, project: project }).toPromise();
+      const response = await this.http.post(`${this.hosturl}/api/projects`, { authkey: authkey, project: project, images: images }).toPromise();
       console.log('Project pushed successfully:', response);
     } catch (error) {
       console.error('Error pushing project:', error);
@@ -129,6 +129,19 @@ export class DbService {
       console.error('Error fetching project images:', error);
       return [];
     }
+  }
+
+  async getVoteForProject(projectId: number, authkey: string): Promise<VoteTypes | null> {
+    try {
+      const response = await this.http.post(`${this.hosturl}/api/user/vote/${projectId}`, { authkey: authkey }).toPromise();
+
+      if (response) {
+        return response as VoteTypes || null;
+      }
+    } catch (error) {
+      console.error('Error fetching vote for project:', error);
+    }
+    return null;
   }
 
   plainToInstance(cls: any, plain: any): any {

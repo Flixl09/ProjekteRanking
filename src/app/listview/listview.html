@@ -9,35 +9,58 @@
 
 <div class="list-wrapper">
   @for (project of projects; track $index) {
+
   <div class="rank-items">
     <div class="cont-left">
       <p class="rtitle">{{ project.title }}</p>
       <p class="description">{{ project.shortdesc }}</p>
     </div>
     <div class="cont-right">
-      <div class="wrappcounter arrowcounter {{ fav == project.projectid ? 'active' : ''}}" *ngIf="project.votes"
-        (click)="favourise(project.projectid!)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path class="arrowpath"
-            d="M9.8 21C9.51997 21 9.37996 21 9.273 20.9455C9.17892 20.8976 9.10243 20.8211 9.0545 20.727C9 20.62 9 20.48 9 20.2V10H5L12 3L19 10H15V20.2C15 20.48 15 20.62 14.9455 20.727C14.8976 20.8211 14.8211 20.8976 14.727 20.9455C14.62 21 14.48 21 14.2 21H9.8Z"
-            stroke="#58A6FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span class="count">{{ project.favourites }}</span>
-      </div>
-      <div class="wrappcounter collabcounter" *ngIf="project.votes">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M22 21V19C22 17.1362 20.7252 15.5701 19 15.126M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M17 21C17 19.1362 17 18.2044 16.6955 17.4693C16.2895 16.4892 15.5108 15.7105 14.5307 15.3045C13.7956 15 12.8638 15 11 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
-            stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span class="count">{{ project.votes }}</span>
-      </div>
-      <div class="wrappcounter" *ngIf="!project.votes && this.account.isLoggedIn()">
-        Abstimmen um Ergebnisse zu sehen
-      </div>
-      <div class="wrappcounter" *ngIf="!this.account.isLoggedIn()">
-        Einloggen um Ergebnisse zu sehen
-      </div>
+
+      @if (this.account.isLoggedIn()) {
+        @if (project.votes) {
+          <div class="wrappcounter arrowcounter up {{ getVoteType(project) === VoteTypes.UPVOTE ? 'active' : '' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path class="arrowpath"
+                d="M9.8 21C9.51997 21 9.37996 21 9.273 20.9455C9.17892 20.8976 9.10243 20.8211 9.0545 20.727C9 20.62 9 20.48 9 20.2V10H5L12 3L19 10H15V20.2C15 20.48 15 20.62 14.9455 20.727C14.8976 20.8211 14.8211 20.8976 14.727 20.9455C14.62 21 14.48 21 14.2 21H9.8Z"
+                fill="#34CC50" stroke="#34CC50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="count">{{ project.upvotes }}</span>
+          </div>
+
+          <div class="wrappcounter arrowcounter meh {{ getVoteType(project) === VoteTypes.MEHVOTE ? 'active' : '' }}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19" stroke="#6F6F6F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="count">{{ project.mehvotes }}</span>
+          </div>
+
+          <div class="wrappcounter arrowcounter down {{ getVoteType(project) === VoteTypes.DOWNVOTE ? 'active' : '' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path class="arrowpath"
+                d="M14.2 3C14.48 3 14.62 3 14.727 3.0545C14.8211 3.1024 14.8976 3.1789 14.9455 3.273C15 3.38 15 3.52 15 3.8L15 14H19L12 21L5 14L9 14L9 3.8C9 3.52 9 3.38 9.0545 3.273C9.1024 3.1789 9.1789 3.1024 9.273 3.0545C9.38 3 9.52 3 9.8 3H14.2Z"
+                fill="#FF5454" stroke="#FF5454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="count">{{ project.downvotes }}</span>
+          </div>
+          <div class="wrappcounter collabcounter" *ngIf="project.votes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M22 21V19C22 17.1362 20.7252 15.5701 19 15.126M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M17 21C17 19.1362 17 18.2044 16.6955 17.4693C16.2895 16.4892 15.5108 15.7105 14.5307 15.3045C13.7956 15 12.8638 15 11 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
+                stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="count">{{ project.votes }}</span>
+          </div>
+        } @else {
+          <div class="wrappcounter">
+            Abstimmen um Ergebnisse zu sehen
+          </div>
+        }
+      } @else {
+        <div class="wrappcounter" *ngIf="!this.account.isLoggedIn()">
+          Einloggen um Ergebnisse zu sehen
+        </div>
+      }
       <a class="linked" [routerLink]="['/detail', project.projectid]" routerLinkActive="active">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -48,6 +71,7 @@
     </div>
   </div>
   <div class="divider"></div>
+
   }
 </div>
 } @else {

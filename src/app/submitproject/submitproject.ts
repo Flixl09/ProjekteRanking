@@ -73,6 +73,7 @@ export class Submitproject{
     const index = this.projectImagesUrls.indexOf(image);
     if (index > -1) {
       this.projectImagesUrls.splice(index, 1);
+      sessionStorage.setItem('projectImagesUrls', JSON.stringify(this.projectImagesUrls));
     }
   }
 

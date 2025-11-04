@@ -5,7 +5,6 @@ import { ProjectDto } from '../db/dtos/project';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { VoteTypes } from '../db/votetypes';
 import { AccountService } from '../account';
-
 @Component({
   selector: 'app-listview',
   imports: [CommonModule, RouterLink],
@@ -15,8 +14,10 @@ import { AccountService } from '../account';
 export class Listview implements OnInit, OnDestroy {
   projects: ProjectDto[] = [];
   fav: number | undefined;
+  projectVoteTypes: { [key: number]: VoteTypes | null } = {};
   private intervalId: any;
   protected account: AccountService
+  VoteTypes: any = VoteTypes;
 
   constructor(private db: DbService, account: AccountService) {
     this.account = account;
@@ -42,6 +43,11 @@ export class Listview implements OnInit, OnDestroy {
         this.db.getVotedProjects(this.account.getAuthkey()!).then((votedProjects) => {
           this.projects = [...unvotedProjects, ...votedProjects];
           this.projects.sort((a, b) => a.title.localeCompare(b.title));
+          votedProjects.forEach((project) => {
+            this.db.getVoteForProject(project.projectid!, this.account.getAuthkey()!).then((voteType: VoteTypes | null) => {
+              this.projectVoteTypes[project.projectid!] = voteType;
+            });
+          });
         }).catch((error) => {
           console.error('Error fetching projects:', error);
         });
@@ -72,5 +78,9 @@ export class Listview implements OnInit, OnDestroy {
       await this.db.voteForProject(projectId, VoteTypes.FAVOURITE, this.account.getAuthkey()!);
     }
     this.loadProjects();
+  }
+
+  getVoteType(project: ProjectDto): VoteTypes | null {
+    return this.projectVoteTypes[project.projectid!] || null;
   }
 }

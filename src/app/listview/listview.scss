@@ -82,7 +82,7 @@
       line-height: normal;
       text-decoration: none;
       transition: ease-in 100ms;
-      
+
       &:hover {
         box-shadow: 0px 0px 4px 2px #58a6ff;
         transition: ease-in 100ms;
@@ -160,14 +160,26 @@
         }
       }
       .arrowcounter {
-        &.active > svg > path.arrowpath {
-          fill: #58a6ff;
+        &.up.active > svg > path.arrowpath {
+          fill: #34CC50;
+        }
+        &.down.active > svg > path.arrowpath {
+          fill: #FF5454;
+        }
+        &.meh.active > svg > path.arrowpath {
+          fill: #6F6F6F;
         }
         svg > path.arrowpath {
           fill: #fff;
         }
-        .count {
-          color: #58a6ff;
+        &.up > .count {
+          color: #34CC50;
+        }
+        &.down > .count {
+          color: #FF5454;
+        }
+        &.meh > .count {
+          color: #6F6F6F;
         }
       }
       .collabcounter {
