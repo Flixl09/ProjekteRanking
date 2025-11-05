@@ -5,7 +5,7 @@ from models import db
 from routes import routes
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "https://projektrankdev.gordlby.at"}})
 app.config.from_object(Config)
 db.init_app(app)
 app.register_blueprint(routes)
